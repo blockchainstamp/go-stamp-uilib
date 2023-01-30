@@ -21,3 +21,8 @@ func InitLib() {
 func OpenWallet(auth string) bool {
 	return false
 }
+
+//export ShowBalance
+func ShowBalance(addr string) *C.char {
+	return nil
+}
