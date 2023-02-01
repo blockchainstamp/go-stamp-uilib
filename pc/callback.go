@@ -30,7 +30,7 @@ func (app *App) CBJsonData(msg *CallBackMsg) string {
 	return C.GoString(result)
 }
 
-func (app *App) Log(str string) {
+func (app *App) SetError(str string) {
 	C.bridge_Error(app.setErr, C.CString(str))
 }
 
