@@ -74,3 +74,13 @@ func OpenWallet(auth string) bool {
 func ShowBalance(addr string) *C.char {
 	return nil
 }
+
+//export OpenWallet
+func CreateWallet(auth string) *C.char {
+	w, e := bStamp.Inst().CreateWallet(auth)
+	if e != nil {
+		_appInst.SetError(e.Error())
+		return nil
+	}
+	return C.CString(w.String())
+}
