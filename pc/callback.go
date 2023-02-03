@@ -17,8 +17,6 @@ import "encoding/json"
 
 const (
 	_ = iota
-	LoadDns
-	LoadInnerIP
 )
 
 func (app *App) CBJsonData(msg *CallBackMsg) string {

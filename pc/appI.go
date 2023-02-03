@@ -6,9 +6,11 @@ package main
 import "C"
 import (
 	"crypto/tls"
+	"encoding/json"
 	"fmt"
 	"github.com/blockchainstamp/go-mail-proxy/utils"
 	bStamp "github.com/blockchainstamp/go-stamp-wallet"
+	"github.com/blockchainstamp/go-stamp-wallet/comm"
 	"github.com/sirupsen/logrus"
 	"path"
 )
@@ -75,12 +77,52 @@ func ShowBalance(addr string) *C.char {
 	return nil
 }
 
-//export OpenWallet
-func CreateWallet(auth string) *C.char {
-	w, e := bStamp.Inst().CreateWallet(auth)
+//export CreateWallet
+func CreateWallet(auth, name string) *C.char {
+	w, e := bStamp.Inst().CreateWallet(auth, name)
 	if e != nil {
 		_appInst.SetError(e.Error())
 		return nil
 	}
 	return C.CString(w.String())
+}
+
+type WalletInfos struct {
+	Addr    string
+	Name    string
+	JsonStr string
+}
+
+//export AllWallets
+func AllWallets() *C.char {
+	data := bStamp.Inst().ListAllWalletAddr()
+	if len(data) == 0 {
+		return C.CString("")
+	}
+	value := make(map[string]struct{}, 0)
+	err := json.Unmarshal([]byte(data), &value)
+	if err != nil {
+		_appInst.SetError(err.Error())
+		return nil
+	}
+	result := make([]*WalletInfos, 0)
+	for addr, _ := range value {
+		w, e := bStamp.Inst().GetWallet(comm.WalletAddr(addr))
+		if e != nil {
+			_appInst.SetError(err.Error())
+			return nil
+		}
+		wi := &WalletInfos{
+			Addr:    addr,
+			Name:    w.Name(),
+			JsonStr: w.Verbose(),
+		}
+		result = append(result, wi)
+	}
+	bts, err := json.Marshal(result)
+	if err != nil {
+		_appInst.SetError(err.Error())
+		return nil
+	}
+	return C.CString(string(bts))
 }
