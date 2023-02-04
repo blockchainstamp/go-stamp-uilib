@@ -32,22 +32,28 @@ func InitLib(baseDir, logLevel string, cb C.UserInterfaceAPI, errSet C.SetLastEr
 	_appInst.setErr = errSet
 
 	if err := bStamp.InitSDK(baseDir); err != nil {
+		fmt.Println("======>>> int bStamp sdk err:", err)
 		_appInst.SetError(err.Error())
 		return false
 	}
-	fmt.Println("======>>> init success")
+	fmt.Println("======>>> init bStamp SDK success")
 	level, err := logrus.ParseLevel(logLevel)
 	if err != nil {
+		fmt.Println("======>>> set log err:", err)
 		_appInst.SetError(err.Error())
 		return false
 	}
 	logrus.SetLevel(level)
 	logrus.SetFormatter(&logrus.JSONFormatter{})
+	fmt.Println("======>>> set log level:", level)
+
 	cert, err := loadLocalTlsConf(baseDir)
 	if err != nil {
+		fmt.Println("======>>> load tsl conf err:", err)
 		_appInst.SetError(err.Error())
 		return false
 	}
+	fmt.Println("======>>> tls config load success:")
 	_appInst.localTls = &tls.Config{Certificates: []tls.Certificate{cert}}
 	return true
 }
@@ -61,15 +67,24 @@ func loadLocalTlsConf(baseDir string) (tls.Certificate, error) {
 		return tls.LoadX509KeyPair(certFile, keyFile)
 	}
 	if err := utils.GenerateByParam(certFile, keyFile, 365, "", ""); err != nil {
+		fmt.Println("======>>> create tls file err:", err)
 		return tls.Certificate{}, err
 	}
+	fmt.Println("======>>> create tls files:", certFile, keyFile)
 
 	return tls.LoadX509KeyPair(certFile, keyFile)
 }
 
 //export OpenWallet
-func OpenWallet(auth string) bool {
-	return false
+func OpenWallet(addr, auth string) bool {
+	_, err := bStamp.Inst().ActiveWallet(comm.WalletAddr(addr), auth)
+	if err != nil {
+		fmt.Println("======>>> active wallet err:", err)
+		_appInst.SetError(err.Error())
+		return false
+	}
+
+	return true
 }
 
 //export ShowBalance
