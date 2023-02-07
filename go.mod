@@ -5,6 +5,7 @@ go 1.19
 require (
 	github.com/blockchainstamp/go-mail-proxy v1.2.0
 	github.com/blockchainstamp/go-stamp-wallet v1.0.1
+	github.com/ethereum/go-ethereum v1.10.26
 	github.com/sirupsen/logrus v1.9.0
 )
 
@@ -14,7 +15,6 @@ require (
 	github.com/btcsuite/btcutil v1.0.2 // indirect
 	github.com/deckarep/golang-set v1.8.0 // indirect
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.1.0 // indirect
-	github.com/ethereum/go-ethereum v1.10.26 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/go-stack/stack v1.8.1 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect

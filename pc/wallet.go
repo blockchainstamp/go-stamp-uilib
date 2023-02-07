@@ -20,11 +20,6 @@ func OpenWallet(addr, auth string) bool {
 	return true
 }
 
-//export ShowBalance
-func ShowBalance(addr string) *C.char {
-	return nil
-}
-
 //export CreateWallet
 func CreateWallet(auth, name string) *C.char {
 	w, e := bStamp.Inst().CreateWallet(auth, name)
