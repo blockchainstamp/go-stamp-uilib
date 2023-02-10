@@ -30,3 +30,8 @@ func StampConfig(sAddr string) *C.char {
 	}
 	return C.CString(c.String())
 }
+
+//export IsValidStampAddr
+func IsValidStampAddr(sAddr string) bool {
+	return common.IsHexAddress(sAddr)
+}
