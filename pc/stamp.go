@@ -28,6 +28,7 @@ func StampConfig(sAddr string) *C.char {
 		_appInst.SetError(e.Error())
 		return nil
 	}
+	fmt.Println("======>>>config:\n", c.String())
 	return C.CString(c.String())
 }
 

@@ -79,3 +79,15 @@ func AllWallets() *C.char {
 	}
 	return C.CString(string(bts))
 }
+
+//export RemoveWallet
+func RemoveWallet(wStr string) bool {
+	e := bStamp.Inst().RemoveWallet(comm.WalletAddr(wStr))
+	if e != nil {
+		fmt.Println("======>>>remove failed", wStr, e.Error())
+		_appInst.SetError(e.Error())
+		return false
+	}
+	fmt.Println("======>>>remove success", wStr)
+	return true
+}
