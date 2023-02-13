@@ -17,6 +17,8 @@ import "encoding/json"
 
 const (
 	_ = iota
+	CMDSrvStatusChanged
+	CMDLogOutPut
 )
 
 func (app *App) CBJsonData(msg *CallBackMsg) string {
@@ -30,6 +32,15 @@ func (app *App) CBJsonData(msg *CallBackMsg) string {
 
 func (app *App) SetError(str string) {
 	C.bridge_Error(app.setErr, C.CString(str))
+}
+
+func (app *App) Write(p []byte) (n int, err error) {
+	msg := &CallBackMsg{
+		Cmd:   CMDLogOutPut,
+		Param: string(p),
+	}
+	app.CBJsonData(msg)
+	return len(p), nil
 }
 
 type CallBackMsg struct {

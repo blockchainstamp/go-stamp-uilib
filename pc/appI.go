@@ -10,6 +10,7 @@ import (
 	"github.com/blockchainstamp/go-mail-proxy/utils"
 	bStamp "github.com/blockchainstamp/go-stamp-wallet"
 	"github.com/sirupsen/logrus"
+	"io"
 	"path"
 )
 
@@ -20,6 +21,10 @@ type App struct {
 	callback C.UserInterfaceAPI
 	setErr   C.SetLastErr
 	localTls *tls.Config
+	basDir   string
+	cfg      *Config
+	logger   io.Writer
+	service  *Service
 }
 
 var _appInst = &App{}
@@ -28,7 +33,7 @@ var _appInst = &App{}
 func InitLib(baseDir, logLevel string, cb C.UserInterfaceAPI, errSet C.SetLastErr) bool {
 	_appInst.callback = cb
 	_appInst.setErr = errSet
-
+	_appInst.logger = _appInst
 	if err := bStamp.InitSDK(baseDir); err != nil {
 		fmt.Println("======>>> int bStamp sdk err:", err)
 		_appInst.SetError(err.Error())
@@ -53,6 +58,7 @@ func InitLib(baseDir, logLevel string, cb C.UserInterfaceAPI, errSet C.SetLastEr
 	}
 	fmt.Println("======>>> tls config load success:")
 	_appInst.localTls = &tls.Config{Certificates: []tls.Certificate{cert}}
+	_appInst.basDir = baseDir
 	return true
 }
 
