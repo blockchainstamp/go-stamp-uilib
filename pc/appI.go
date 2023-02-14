@@ -9,7 +9,6 @@ import (
 	"fmt"
 	"github.com/blockchainstamp/go-mail-proxy/utils"
 	bStamp "github.com/blockchainstamp/go-stamp-wallet"
-	"github.com/sirupsen/logrus"
 	"io"
 	"path"
 )
@@ -30,7 +29,7 @@ type App struct {
 var _appInst = &App{}
 
 //export InitLib
-func InitLib(baseDir, logLevel string, cb C.UserInterfaceAPI, errSet C.SetLastErr) bool {
+func InitLib(baseDir string, cb C.UserInterfaceAPI, errSet C.SetLastErr) bool {
 	_appInst.callback = cb
 	_appInst.setErr = errSet
 	_appInst.logger = _appInst
@@ -39,16 +38,7 @@ func InitLib(baseDir, logLevel string, cb C.UserInterfaceAPI, errSet C.SetLastEr
 		_appInst.SetError(err.Error())
 		return false
 	}
-	fmt.Println("======>>> init bStamp SDK success")
-	level, err := logrus.ParseLevel(logLevel)
-	if err != nil {
-		fmt.Println("======>>> set log err:", err)
-		_appInst.SetError(err.Error())
-		return false
-	}
-	logrus.SetLevel(level)
-	logrus.SetFormatter(&logrus.JSONFormatter{})
-	fmt.Println("======>>> set log level:", level)
+	fmt.Println("======>>> init bStamp SDK success base:", baseDir)
 
 	cert, err := loadLocalTlsConf(baseDir)
 	if err != nil {
@@ -68,6 +58,7 @@ func loadLocalTlsConf(baseDir string) (tls.Certificate, error) {
 	_, ok1 := utils.FileExists(certFile)
 	_, ok2 := utils.FileExists(keyFile)
 	if ok2 && ok1 {
+		fmt.Println("======>>> found tls files:", certFile, keyFile)
 		return tls.LoadX509KeyPair(certFile, keyFile)
 	}
 	if err := utils.GenerateByParam(certFile, keyFile, 365, "", ""); err != nil {

@@ -3,7 +3,7 @@ module github.com/blockchainstamp/go-stamp-uilib
 go 1.19
 
 require (
-	github.com/blockchainstamp/go-mail-proxy v1.2.1
+	github.com/blockchainstamp/go-mail-proxy v1.2.2
 	github.com/blockchainstamp/go-stamp-wallet v1.0.2
 	github.com/ethereum/go-ethereum v1.10.26
 	github.com/sirupsen/logrus v1.9.0
@@ -15,6 +15,10 @@ require (
 	github.com/btcsuite/btcutil v1.0.2 // indirect
 	github.com/deckarep/golang-set v1.8.0 // indirect
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.1.0 // indirect
+	github.com/emersion/go-imap v1.2.1 // indirect
+	github.com/emersion/go-imap-id v0.0.0-20190926060100-f94a56b9ecde // indirect
+	github.com/emersion/go-sasl v0.0.0-20220912192320-0145f2c60ead // indirect
+	github.com/emersion/go-smtp v0.16.0 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/go-stack/stack v1.8.1 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
@@ -33,8 +37,11 @@ require (
 	google.golang.org/genproto v0.0.0-20230131230820-1c016267d619 // indirect
 	google.golang.org/grpc v1.52.3 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
+	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
+	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df // indirect
 	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce // indirect
 )
 
-replace github.com/blockchainstamp/go-mail-proxy => /Users/hyperorchid/bmail/go-mail-proxy
-replace github.com/blockchainstamp/go-stamp-wallet => /Users/hyperorchid/bmail/go-stamp-wallet
+//replace github.com/blockchainstamp/go-mail-proxy => /Users/hyperorchid/bmail/go-mail-proxy
+//
+//replace github.com/blockchainstamp/go-stamp-wallet => /Users/hyperorchid/bmail/go-stamp-wallet
