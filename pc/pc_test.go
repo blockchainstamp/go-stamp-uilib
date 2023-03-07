@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"github.com/blockchainstamp/go-mail-proxy/protocol/common"
+	"github.com/blockchainstamp/go-mail-proxy/utils/common"
 	contract "github.com/blockchainstamp/go-stamp-wallet/smart_contract"
 	"path"
 	"strings"
